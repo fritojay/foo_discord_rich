@@ -1,9 +1,9 @@
 [submodule "submodules/foobar2000"]
 	path = submodules/foobar2000
-	url = https://github.com/TheQwertiest/foobar2000-sdk.git
+	url = https://github.com/fritojay/foobar2000-sdk.git
 [submodule "submodules/pfc"]
 	path = submodules/pfc
-	url = https://github.com/TheQwertiest/pfc.git
+	url = https://github.com/fritojay/pfc.git
 [submodule "submodules/wtl"]
 	path = submodules/wtl
 	url = https://git.code.sf.net/p/wtl/git
