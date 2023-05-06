@@ -29,12 +29,13 @@ def pack(is_debug = False):
     plats = ["Win32", "x64"]
     for plat in plats:
         result_machine_dir = root_dir/"_result"/(f"{plat}_Debug" if is_debug else f"{plat}_Release")
-        assert(result_machine_dir.exists() and result_machine_dir.is_dir())
+        if not result_machine_dir.exists() or not result_machine_dir.is_dir():
+            continue
 
         output_dir = result_machine_dir
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        component_zip = output_dir/"foo_discord_rich.fb2k-component"
+        component_zip = output_dir/f"foo_discord_rich.fb2k-component"
         component_zip.unlink(missing_ok=True)
 
         with ZipFile(component_zip, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
