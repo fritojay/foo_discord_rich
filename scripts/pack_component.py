@@ -26,39 +26,41 @@ def zipdir(zip_file, path, arc_path):
 def pack(is_debug = False):
     cur_dir = Path(__file__).parent.absolute()
     root_dir = cur_dir.parent
-    result_machine_dir = root_dir/"_result"/("Win32_Debug" if is_debug else "Win32_Release")
-    assert(result_machine_dir.exists() and result_machine_dir.is_dir())
+    plats = ["Win32", "x64"]
+    for plat in plats:
+        result_machine_dir = root_dir/"_result"/(f"{plat}_Debug" if is_debug else f"{plat}_Release")
+        assert(result_machine_dir.exists() and result_machine_dir.is_dir())
 
-    output_dir = result_machine_dir
-    output_dir.mkdir(parents=True, exist_ok=True)
+        output_dir = result_machine_dir
+        output_dir.mkdir(parents=True, exist_ok=True)
 
-    component_zip = output_dir/"foo_discord_rich.fb2k-component"
-    component_zip.unlink(missing_ok=True)
+        component_zip = output_dir/"foo_discord_rich.fb2k-component"
+        component_zip.unlink(missing_ok=True)
 
-    with ZipFile(component_zip, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-        zipdir(z, root_dir/'licenses', 'licenses')
+        with ZipFile(component_zip, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+            zipdir(z, root_dir/'licenses', 'licenses')
 
-        z.write(*path_basename_tuple(root_dir/"LICENSE"))
-        z.write(*path_basename_tuple(root_dir/"CHANGELOG.md"))
+            z.write(*path_basename_tuple(root_dir/"LICENSE"))
+            z.write(*path_basename_tuple(root_dir/"CHANGELOG.md"))
 
-        z.write(*path_basename_tuple(result_machine_dir/"bin"/"foo_discord_rich.dll"))
+            z.write(*path_basename_tuple(result_machine_dir/"bin"/"foo_discord_rich.dll"))
 
-        if (is_debug):
-            # Only debug package should have pdbs inside
-            z.write(*path_basename_tuple(result_machine_dir/"dbginfo"/"foo_discord_rich.pdb"))
+            if (is_debug):
+                # Only debug package should have pdbs inside
+                z.write(*path_basename_tuple(result_machine_dir/"dbginfo"/"foo_discord_rich.pdb"))
 
-    print(f"Generated file: {component_zip}")
+        print(f"Generated file: {component_zip}")
 
-    if (not is_debug):
-        # Release pdbs are packed in a separate package
-        pdb_zip = output_dir/"foo_discord_rich_pdb.zip"
-        if (pdb_zip.exists()):
-            pdb_zip.unlink()
+        if (not is_debug):
+            # Release pdbs are packed in a separate package
+            pdb_zip = output_dir/"foo_discord_rich_pdb.zip"
+            if (pdb_zip.exists()):
+                pdb_zip.unlink()
 
-        with ZipFile(pdb_zip, "w", zipfile.ZIP_DEFLATED) as z:
-            z.write(*path_basename_tuple(result_machine_dir/"dbginfo"/"foo_discord_rich.pdb"))
+            with ZipFile(pdb_zip, "w", zipfile.ZIP_DEFLATED) as z:
+                z.write(*path_basename_tuple(result_machine_dir/"dbginfo"/"foo_discord_rich.pdb"))
 
-        print(f"Generated file: {pdb_zip}")
+            print(f"Generated file: {pdb_zip}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Pack component to .fb2k-component')

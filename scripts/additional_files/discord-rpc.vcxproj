@@ -47,7 +47,7 @@
     <NMakeBuildCommandLine>cd "$(ProjectDir)"..\
 mkdir build
 cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=..\_result -DCMAKE_GENERATOR_INSTANCE="$(CurrentVsInstallRoot)" -DCMAKE_GENERATOR_PLATFORM=Win32 -DUSE_STATIC_CRT=ON
+cmake .. -DCMAKE_INSTALL_PREFIX=..\_result -DCMAKE_GENERATOR_INSTANCE="$(CurrentVsInstallRoot)" -DCMAKE_GENERATOR_PLATFORM=$(Platform) -DUSE_STATIC_CRT=ON
 cmake --build ..\build --config $(Configuration) --target install</NMakeBuildCommandLine>
     <ExecutablePath>$(DevEnvDir)CommonExtensions\Microsoft\CMake\CMake\bin;$(ExecutablePath)</ExecutablePath>
     <NMakeCleanCommandLine>rmdir /s/q "$(ProjectDir)"..\build
