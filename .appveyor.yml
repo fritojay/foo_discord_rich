@@ -81,12 +81,10 @@ install:
 
 # build platform, i.e. x86, x64, Any CPU. This setting is optional.
 platform:
-  - Win32
   - x64
 
 # build Configuration, i.e. Debug, Release, etc.
 configuration:
-  - Debug
   - Release
 
 # Build settings, not to be confused with "before_build" and "after_build".
