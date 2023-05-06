@@ -35,7 +35,7 @@ def pack(is_debug = False):
         output_dir = result_machine_dir
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        component_zip = output_dir/f"foo_discord_rich.fb2k-component"
+        component_zip = output_dir/f"foo_discord_rich-{plat}.fb2k-component"
         component_zip.unlink(missing_ok=True)
 
         with ZipFile(component_zip, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as z:
@@ -54,7 +54,7 @@ def pack(is_debug = False):
 
         if (not is_debug):
             # Release pdbs are packed in a separate package
-            pdb_zip = output_dir/"foo_discord_rich_pdb.zip"
+            pdb_zip = output_dir/f"foo_discord_rich_pdb-{plat}.zip"
             if (pdb_zip.exists()):
                 pdb_zip.unlink()
 
