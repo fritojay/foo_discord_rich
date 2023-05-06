@@ -37,15 +37,13 @@ max_jobs: 1
 #---------------------------------#
 
 # Build worker image (VM template)
-image: Visual Studio 2019
+image: Visual Studio 2022
 
 # environment variables
 environment:
   APPVEYOR_IGNORE_COMMIT_FILTERING_ON_TAG: true
-  git_user_email: qwertiest@mail.ru
-  git_user_name: TheQwertiest
-  GITHUB_TOKEN:
-    secure: gBfHQnRcGcTS0yQXWOHhKfDkTZfIBwPIDjTsCQOGmOSPkRqs1QPYBX47BjCvJKim
+  git_user_email: 60239961+fritojay@users.noreply.github.com 
+  git_user_name: fritojay
 
 # this is how to allow failing jobs in the matrix
 matrix:
@@ -60,6 +58,8 @@ for:
       - workspaces\packages -> **\packages.config
       - _result\Win32_Release\bin\foo_discord_rich.ipdb
       - _result\Win32_Release\bin\foo_discord_rich.iobj
+      - _result\x64_Release\bin\foo_discord_rich.ipdb
+      - _result\x64_Release\bin\foo_discord_rich.iobj
 
 cache:
   - workspaces\packages -> **\packages.config
@@ -82,6 +82,7 @@ install:
 # build platform, i.e. x86, x64, Any CPU. This setting is optional.
 platform:
   - Win32
+  - x64
 
 # build Configuration, i.e. Debug, Release, etc.
 configuration:
